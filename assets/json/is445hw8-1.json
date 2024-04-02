@@ -1,0 +1,131 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 5,
+  "height": 300,
+  "title": {"text": "License Type Counts (Log Scale)", "frame": "group"},
+  "style": "cell",
+  "data": [
+    {
+      "name": "data-5b7c110aa618d649b5d81c5fe9c6a8b9",
+      "values": [
+        {"License Type": "APPRAISAL", "Count": 5},
+        {"License Type": "ARCHITECT", "Count": 20},
+        {"License Type": "ATHLETIC TRAINER", "Count": 14},
+        {"License Type": "ATHLETICS", "Count": 15},
+        {"License Type": "AUCTIONEER", "Count": 2},
+        {"License Type": "CEMETERY OVERSIGHT", "Count": 1},
+        {"License Type": "CLIN PSYCHOLOGIST", "Count": 24},
+        {"License Type": "COLLECTION AGENCY", "Count": 21},
+        {"License Type": "COMM ASSOC MGR", "Count": 37},
+        {"License Type": "COSMO", "Count": 3781},
+        {"License Type": "DENTAL", "Count": 739},
+        {"License Type": "DESIGN FIRM", "Count": 71},
+        {"License Type": "DETECT. DECEPTION", "Count": 2},
+        {"License Type": "DETECTIVE BOARD", "Count": 4867},
+        {"License Type": "DIETETIC AND NUTRITION", "Count": 73},
+        {"License Type": "ENVIRON. HLTH PRACT", "Count": 13},
+        {"License Type": "FUNERAL AND EMBALMER", "Count": 98},
+        {"License Type": "GEOLOGY", "Count": 7},
+        {"License Type": "HME AND SERVICES PROV", "Count": 16},
+        {"License Type": "HOME INSPECTOR", "Count": 46},
+        {"License Type": "IDPR", "Count": 9},
+        {"License Type": "INTERIOR DESIGN", "Count": 22},
+        {"License Type": "LAND SURVEYOR BOARD", "Count": 17},
+        {"License Type": "LANDSCAPE ARCHITECT", "Count": 7},
+        {"License Type": "LIMITED LIABILITY CO", "Count": 21},
+        {"License Type": "MAR AND FAM THERAPIST", "Count": 14},
+        {"License Type": "MASSAGE LICENSING BD", "Count": 52},
+        {"License Type": "MEDICAL BOARD", "Count": 6}
+      ]
+    },
+    {
+      "name": "data_0",
+      "source": "data-5b7c110aa618d649b5d81c5fe9c6a8b9",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"Count\"]) && isFinite(+datum[\"Count\"])"
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {"name": "x_step", "value": 20},
+    {
+      "name": "width",
+      "update": "bandspace(domain('x').length, 0.1, 0.05) * x_step"
+    }
+  ],
+  "marks": [
+    {
+      "name": "marks",
+      "type": "rect",
+      "style": ["bar"],
+      "from": {"data": "data_0"},
+      "encode": {
+        "update": {
+          "fill": {"value": "#4c78a8"},
+          "ariaRoleDescription": {"value": "bar"},
+          "description": {
+            "signal": "\"License Type: \" + (isValid(datum[\"License Type\"]) ? datum[\"License Type\"] : \"\"+datum[\"License Type\"]) + \"; Count: \" + (format(datum[\"Count\"], \"\"))"
+          },
+          "x": {"scale": "x", "field": "License Type"},
+          "width": {"signal": "max(0.25, bandwidth('x'))"},
+          "y": {"scale": "y", "field": "Count"},
+          "y2": {"field": {"group": "height"}}
+        }
+      }
+    }
+  ],
+  "scales": [
+    {
+      "name": "x",
+      "type": "band",
+      "domain": {"data": "data_0", "field": "License Type", "sort": true},
+      "range": {"step": {"signal": "x_step"}},
+      "paddingInner": 0.1,
+      "paddingOuter": 0.05
+    },
+    {
+      "name": "y",
+      "type": "log",
+      "domain": {"data": "data_0", "field": "Count"},
+      "range": [{"signal": "height"}, 0],
+      "nice": true
+    }
+  ],
+  "axes": [
+    {
+      "scale": "y",
+      "orient": "left",
+      "gridScale": "x",
+      "grid": true,
+      "domain": false,
+      "labels": false,
+      "aria": false,
+      "maxExtent": 0,
+      "minExtent": 0,
+      "ticks": false,
+      "zindex": 0
+    },
+    {
+      "scale": "x",
+      "orient": "bottom",
+      "grid": false,
+      "title": "License Type",
+      "labelAlign": "right",
+      "labelAngle": 270,
+      "labelBaseline": "middle",
+      "zindex": 0
+    },
+    {
+      "scale": "y",
+      "orient": "left",
+      "grid": false,
+      "title": "Count",
+      "labelOverlap": "greedy",
+      "zindex": 0
+    }
+  ]
+}
