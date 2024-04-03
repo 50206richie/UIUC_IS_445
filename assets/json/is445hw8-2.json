@@ -1,0 +1,260 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 5,
+  "height": 300,
+  "title": {"text": "Average Duration of all License Types", "frame": "group"},
+  "style": "cell",
+  "data": [
+    {
+      "name": "data-e5a390dc8df3d829e3708e91894e44f4",
+      "values": [
+        {"License Type": "APPRAISAL", "Average Effective Duration (Days)": 183},
+        {
+          "License Type": "ATHLETICS",
+          "Average Effective Duration (Days)": 524.13
+        },
+        {
+          "License Type": "ATHLETIC TRAINER",
+          "Average Effective Duration (Days)": 542
+        },
+        {
+          "License Type": "HOME INSPECTOR",
+          "Average Effective Duration (Days)": 651.39
+        },
+        {
+          "License Type": "DIETETIC AND NUTRITION",
+          "Average Effective Duration (Days)": 666.41
+        },
+        {"License Type": "IDPR", "Average Effective Duration (Days)": 684.89},
+        {
+          "License Type": "COMM ASSOC MGR",
+          "Average Effective Duration (Days)": 698.73
+        },
+        {
+          "License Type": "CLIN PSYCHOLOGIST",
+          "Average Effective Duration (Days)": 707.55
+        },
+        {
+          "License Type": "MASSAGE LICENSING BD",
+          "Average Effective Duration (Days)": 742.92
+        },
+        {
+          "License Type": "DETECT. DECEPTION",
+          "Average Effective Duration (Days)": 795
+        },
+        {
+          "License Type": "HME AND SERVICES PROV",
+          "Average Effective Duration (Days)": 796
+        },
+        {
+          "License Type": "AUCTIONEER",
+          "Average Effective Duration (Days)": 817
+        },
+        {
+          "License Type": "DESIGN FIRM",
+          "Average Effective Duration (Days)": 871.04
+        },
+        {
+          "License Type": "LIMITED LIABILITY CO",
+          "Average Effective Duration (Days)": 890
+        },
+        {
+          "License Type": "ENVIRON. HLTH PRACT",
+          "Average Effective Duration (Days)": 1018.85
+        },
+        {
+          "License Type": "MAR AND FAM THERAPIST",
+          "Average Effective Duration (Days)": 1067.86
+        },
+        {
+          "License Type": "GEOLOGY",
+          "Average Effective Duration (Days)": 1086.71
+        },
+        {
+          "License Type": "COLLECTION AGENCY",
+          "Average Effective Duration (Days)": 1094.37
+        },
+        {
+          "License Type": "INTERIOR DESIGN",
+          "Average Effective Duration (Days)": 1206.86
+        },
+        {
+          "License Type": "CEMETERY OVERSIGHT",
+          "Average Effective Duration (Days)": 1419
+        },
+        {
+          "License Type": "FUNERAL AND EMBALMER",
+          "Average Effective Duration (Days)": 1557.82
+        },
+        {
+          "License Type": "LANDSCAPE ARCHITECT",
+          "Average Effective Duration (Days)": 1610.57
+        },
+        {
+          "License Type": "ARCHITECT",
+          "Average Effective Duration (Days)": 1820.72
+        },
+        {
+          "License Type": "DETECTIVE BOARD",
+          "Average Effective Duration (Days)": 1869.37
+        },
+        {"License Type": "COSMO", "Average Effective Duration (Days)": 1934.58},
+        {
+          "License Type": "DENTAL",
+          "Average Effective Duration (Days)": 2302.99
+        },
+        {
+          "License Type": "LAND SURVEYOR BOARD",
+          "Average Effective Duration (Days)": 2862.75
+        },
+        {
+          "License Type": "MEDICAL BOARD",
+          "Average Effective Duration (Days)": 4053.33
+        }
+      ]
+    },
+    {
+      "name": "data_0",
+      "source": "data-e5a390dc8df3d829e3708e91894e44f4",
+      "transform": [
+        {
+          "type": "stack",
+          "groupby": ["License Type"],
+          "field": "Average Effective Duration (Days)",
+          "sort": {
+            "field": ["Average Effective Duration (Days)"],
+            "order": ["descending"]
+          },
+          "as": [
+            "Average Effective Duration (Days)_start",
+            "Average Effective Duration (Days)_end"
+          ],
+          "offset": "zero"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"Average Effective Duration (Days)\"]) && isFinite(+datum[\"Average Effective Duration (Days)\"])"
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {"name": "x_step", "value": 20},
+    {
+      "name": "width",
+      "update": "bandspace(domain('x').length, 0.1, 0.05) * x_step"
+    }
+  ],
+  "marks": [
+    {
+      "name": "marks",
+      "type": "rect",
+      "style": ["bar"],
+      "from": {"data": "data_0"},
+      "encode": {
+        "update": {
+          "fill": {
+            "scale": "color",
+            "field": "Average Effective Duration (Days)"
+          },
+          "tooltip": {
+            "signal": "{\"License Type\": isValid(datum[\"License Type\"]) ? datum[\"License Type\"] : \"\"+datum[\"License Type\"], \"Average Effective Duration (Days)\": format(datum[\"Average Effective Duration (Days)\"], \".2f\")}"
+          },
+          "ariaRoleDescription": {"value": "bar"},
+          "description": {
+            "signal": "\"License Type: \" + (isValid(datum[\"License Type\"]) ? datum[\"License Type\"] : \"\"+datum[\"License Type\"]) + \"; Average Effective Duration (Days): \" + (format(datum[\"Average Effective Duration (Days)\"], \"\"))"
+          },
+          "x": {"scale": "x", "field": "License Type"},
+          "width": {"signal": "max(0.25, bandwidth('x'))"},
+          "y": {"scale": "y", "field": "Average Effective Duration (Days)_end"},
+          "y2": {
+            "scale": "y",
+            "field": "Average Effective Duration (Days)_start"
+          }
+        }
+      }
+    }
+  ],
+  "scales": [
+    {
+      "name": "x",
+      "type": "band",
+      "domain": {
+        "data": "data-e5a390dc8df3d829e3708e91894e44f4",
+        "field": "License Type",
+        "sort": {"op": "min", "field": "Average Effective Duration (Days)"}
+      },
+      "range": {"step": {"signal": "x_step"}},
+      "paddingInner": 0.1,
+      "paddingOuter": 0.05
+    },
+    {
+      "name": "y",
+      "type": "linear",
+      "domain": {
+        "data": "data_0",
+        "fields": [
+          "Average Effective Duration (Days)_start",
+          "Average Effective Duration (Days)_end"
+        ]
+      },
+      "range": [{"signal": "height"}, 0],
+      "nice": true,
+      "zero": true
+    },
+    {
+      "name": "color",
+      "type": "linear",
+      "domain": {
+        "data": "data_0",
+        "field": "Average Effective Duration (Days)"
+      },
+      "range": ["lightblue", "darkblue"],
+      "interpolate": "hcl",
+      "zero": false
+    }
+  ],
+  "axes": [
+    {
+      "scale": "y",
+      "orient": "left",
+      "gridScale": "x",
+      "grid": true,
+      "tickCount": {"signal": "ceil(height/40)"},
+      "domain": false,
+      "labels": false,
+      "aria": false,
+      "maxExtent": 0,
+      "minExtent": 0,
+      "ticks": false,
+      "zindex": 0
+    },
+    {
+      "scale": "x",
+      "orient": "bottom",
+      "grid": false,
+      "title": "License Type",
+      "labelAlign": "right",
+      "labelAngle": 270,
+      "labelBaseline": "middle",
+      "zindex": 0
+    },
+    {
+      "scale": "y",
+      "orient": "left",
+      "grid": false,
+      "title": "Average Effective Duration (Days)",
+      "labelOverlap": true,
+      "tickCount": {"signal": "ceil(height/40)"},
+      "zindex": 0
+    }
+  ],
+  "legends": [
+    {
+      "fill": "color",
+      "gradientLength": {"signal": "clamp(height, 64, 200)"},
+      "title": "Average Effective Duration (Days)"
+    }
+  ]
+}
